@@ -21,7 +21,6 @@ import Pinterest from "@auth/core/providers/pinterest"
 import Reddit from "@auth/core/providers/reddit"
 import Slack from "@auth/core/providers/slack"
 import Spotify from "@auth/core/providers/spotify"
-import TikTok from "@auth/core/providers/tiktok"
 import Twitch from "@auth/core/providers/twitch"
 import Twitter from "@auth/core/providers/twitter"
 import WorkOS from "@auth/core/providers/workos"
@@ -59,11 +58,35 @@ const authConfig: AuthConfig = {
     Reddit,
     Slack,
     Spotify,
-    TikTok,
     Twitch,
     Twitter,
     WorkOS,
     Zoom,
+    {
+      id: "tiktok",
+      name: "TikTok",
+      type: "oauth",
+      checks: ["state"],
+      clientId: process.env.AUTH_TIKTOK_ID,
+      clientSecret: process.env.AUTH_TIKTOK_SECRET,
+      authorization: {
+        url: "https://www.tiktok.com/v2/auth/authorize",
+        params: {
+          client_key: process.env.AUTH_TIKTOK_ID,
+          scope: "user.info.basic",
+        },
+      },
+      token: "https://open.tiktokapis.com/v2/oauth/token/",
+      userinfo:
+        "https://open.tiktokapis.com/v2/user/info/?fields=open_id,avatar_url,display_name,username",
+      profile(profile: any) {
+        return profile
+      },
+      style: {
+        bg: "#000",
+        text: "#fff",
+      },
+    },
   ],
   basePath: "/api",
 }
